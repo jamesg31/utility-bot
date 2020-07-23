@@ -1,0 +1,14 @@
+{
+    "bot_name": "Utility Bot",
+    "prefix": "!",
+    "token": "",
+    "embed_color": "0x0d00ff",
+    "welcome_messages": false,
+    "welcome_title": "",
+    "welcome_body": "",
+    "welcome_channel": "",
+    "welcome_image": false,
+    "welcome_image_url": "",
+    "welcome_thumbnail": false,
+    "welcome_thumbnail_url": ""
+}
