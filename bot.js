@@ -5,6 +5,10 @@ var config = require('./config.json');
 const prefix = config.prefix;
 const embedColor = config.embed_color;
 
+client.on('ready', () => {
+    console.log('Bot online and running.')
+})
+
 client.on('guildMemberAdd', (member) => {
     welcome_body = config.welcome_body.replace('${tag}', '<@' + member.id + '>').replace('${username}', member.displayName)
     welcome_title = config.welcome_title.replace('${tag}', '<@' + member.id + '>').replace('${username}', member.displayName)
