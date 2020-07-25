@@ -10,5 +10,8 @@
     "welcome_image": false,
     "welcome_image_url": "",
     "welcome_thumbnail": false,
-    "welcome_thumbnail_url": ""
+    "welcome_thumbnail_url": "",
+    "suggestions": false,
+    "suggestions_channel": "",
+    "suggestions_header": ""
 }
