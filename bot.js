@@ -5,26 +5,55 @@ var config = require('./config.json');
 const prefix = config.prefix;
 const embedColor = config.embed_color;
 
+var previous = null;
+
+const announce = () => {
+    if (previous != null) {
+        previous.delete()
+    }
+    const autoembed = new Discord.MessageEmbed()
+        autoembed.setColor(embedColor)
+        autoembed.setTitle(config.auto_message.title)
+        autoembed.setDescription(config.auto_message.body)
+        if (config.auto_message.image) {
+            autoembed.setImage(config.auto_message.image_url)
+        }
+        if (config.auto_message.thumbnail) {
+            autoembed.setImage(config.auto_message.thumbnail_url)
+        }
+        autoembed.setFooter(client.guilds.cache.get(config.guild_id).name, client.guilds.cache.get(config.guild_id).iconURL())
+        autoembed.setTimestamp()
+    client.channels.fetch(config.auto_message.channel).then(channel => {
+        channel.send(autoembed).then(message => {
+            previous = message;
+        })
+    });
+}
+
 client.on('ready', () => {
     console.log('Bot online and running.')
+    if (config.auto_message.enabled) {
+        announce()
+        setInterval(announce, config.auto_message.delay)
+    }
 })
 
 client.on('guildMemberAdd', (member) => {
-    welcome_body = config.welcome_body.replace('${tag}', '<@' + member.id + '>').replace('${username}', member.displayName)
-    welcome_title = config.welcome_title.replace('${tag}', '<@' + member.id + '>').replace('${username}', member.displayName)
+    welcome_body = config.welcome_messages.body.replace('${tag}', '<@' + member.id + '>').replace('${username}', member.displayName)
+    welcome_title = config.welcome_messages.title.replace('${tag}', '<@' + member.id + '>').replace('${username}', member.displayName)
     const welcomeembed = new Discord.MessageEmbed()
         welcomeembed.setColor(embedColor)
         welcomeembed.setTitle(welcome_title)
         welcomeembed.setDescription(welcome_body)
-        if (config.welcome_thumbnail) {
-            welcomeembed.setThumbnail(config.welcome_thumbnail_url)
+        if (config.welcome_messages.thumbnail) {
+            welcomeembed.setThumbnail(config.welcome_messages.thumbnail_url)
         }
-        if (config.welcome_image) {
-            welcomeembed.setImage(config.welcome_image_url)
+        if (config.welcome_messages.image) {
+            welcomeembed.setImage(config.welcome_messages.image_url)
         }
         welcomeembed.setFooter(member.guild.name, member.guild.iconURL())
         welcomeembed.setTimestamp()
-    client.channels.fetch(config.welcome_channel).then(channel => {channel.send(welcomeembed)});
+    client.channels.fetch(config.welcome_messages.channel).then(channel => {channel.send(welcomeembed)});
 })
 
 client.on("message", (message) => {
@@ -283,12 +312,14 @@ client.on("message", (message) => {
             });
         }
     };
-    if (message.channel.id == config.suggestions_channel && config.suggestions && !message.author.bot) {
+
+    if (message.channel.id == config.suggestions.channel && config.suggestions.enabled && !message.author.bot) {
         const suggestembed = new Discord.MessageEmbed()
         .setColor(embedColor)
-        .setTitle(config.suggestions_header)
+        .setAuthor(message.author.username, message.author.avatarURL())
+        .setTitle(config.suggestions.header)
         .setDescription('```' + message.content + '```')
-        .setFooter('Suggested by ' + message.author.username, message.guild.iconURL())
+        .setFooter(message.guild.name, message.guild.iconURL())
         .setTimestamp()
         message.channel.send(suggestembed).then(suggest => {
             suggest.react('✅');

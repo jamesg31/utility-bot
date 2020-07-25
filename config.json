@@ -3,15 +3,31 @@
     "prefix": "!",
     "token": "",
     "embed_color": "0x0d00ff",
-    "welcome_messages": false,
-    "welcome_title": "",
-    "welcome_body": "",
-    "welcome_channel": "",
-    "welcome_image": false,
-    "welcome_image_url": "",
-    "welcome_thumbnail": false,
-    "welcome_thumbnail_url": "",
-    "suggestions": false,
-    "suggestions_channel": "",
-    "suggestions_header": ""
+    "guild_id": "",
+    "welcome_messages": {
+        "enabled": false,
+        "title": "",
+        "body": "",
+        "channel": "",
+        "image": false,
+        "image_url": "",
+        "thumbnail": false,
+        "thumbnail_url": ""   
+    },
+    "suggestions": {
+        "enabled": false,
+        "channel": "",
+        "header": ""
+    },
+    "auto_message": {
+        "enabled": false,
+        "channel": "",
+        "delay": 0,
+        "title": "",
+        "body": "",
+        "image": false,
+        "image_url": "",
+        "thumbnail": false,
+        "thumbnail_url": ""
+    }
 }
